@@ -1,0 +1,57 @@
+spring:
+  cloud:
+    schema-registry-client:
+      endpoint: http://${SCHEMA_REGISTRY_HOST:localhost}:${SCHEMA_REGISTRY_PORT:8081}
+    schema:
+      avro:
+        schema-locations:
+          - classpath:avro/news-event.avsc,avro/bayite-event.avsc
+          - classpath:avro/khassida-event.avsc
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:29092}
+          auto-add-partitions: true
+      source: news, bayite, khassida
+      bindings:
+        news-out-0:
+          destination: com.mycompany.newspipeline.producer.news
+          content-type: application/*+avro
+          producer:
+            partition-key-expression: headers['partitionKey']
+            partition-count: 2
+        bayite-out-0:
+          destination: com.mycompany.bayitepipeline.producer.bayite
+          content-type: application/*+avro
+          producer:
+            partition-key-expression: headers['partitionKey']
+            partition-count: 3
+        khassida-out-0:
+          destination: com.mycompany.khassidapipeline.producer.khassida
+          content-type: application/*+avro
+          producer:
+            partition-key-expression: headers['partitionKey']
+            partition-count: 4
+  sleuth:
+    sampler:
+      probability: 1.0
+
+management:
+  endpoints:
+    web:
+      exposure.include: beans, env, health, info, metrics, mappings
+  endpoint:
+    health:
+      show-details: always
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka
+  instance:
+    preferIpAddress: true
+
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    groups-order: DESC

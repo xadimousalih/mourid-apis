@@ -1,0 +1,18 @@
+{
+	"namespace": "com.mycompany.commonsbayite.avro",
+	"type": "record",
+	"name": "BayiteEvent",
+	"fields": [
+		{"name": "id", "type": "string"},
+		{"name": "numero", "type": "string"},
+		{"name": "bayitear", "type": "string"},
+		{"name": "bayitefr", "type": ["null", "string"], "default": null},
+		{"name": "bayiteen", "type": ["null", "string"], "default": null},
+		{"name": "bayiteit", "type": ["null", "string"], "default": null},
+		{"name": "bayitees", "type": ["null", "string"], "default": null},
+		{"name": "bayitewo", "type": ["null", "string"], "default": null},
+		{"name": "bayitept", "type": ["null", "string"], "default": null},
+		{"name": "bayitech", "type": ["null", "string"], "default": null},
+		{"name": "khassida", "type": ["null", "string"], "default": null}
+	]
+}

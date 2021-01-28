@@ -1,0 +1,53 @@
+spring:
+  cloud:
+    schema-registry-client:
+      endpoint: http://${SCHEMA_REGISTRY_HOST:localhost}:${SCHEMA_REGISTRY_PORT:8081}
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:29092}
+          auto-add-partitions: true
+          min-partition-count: 2
+      bindings:
+        news-in-0:
+          destination: com.mycompany.newspipeline.collector.news
+          content-type: application/*+avro
+          group: newsClientGroup
+          consumer:
+            max-attempts: 4
+            back-off-initial-interval: 10000
+        news-in-1:
+          destination: com.mycompany.bayitepipeline.collector.bayite
+          content-type: application/*+avro
+          group: bayiteClientGroup
+          consumer:
+            max-attempts: 4
+            back-off-initial-interval: 10000
+        news-in-2:
+          destination: com.mycompany.khassidapipeline.collector.khassida
+          content-type: application/*+avro
+          group: khassidaClientGroup
+          consumer:
+            max-attempts: 4
+            back-off-initial-interval: 10000
+  sleuth:
+    integration:
+      websockets:
+        enabled: false # Workaround due to this issue -> https://github.com/spring-cloud/spring-cloud-sleuth/issues/1184
+    sampler:
+      probability: 1.0
+
+management:
+  endpoints:
+    web:
+      exposure.include: beans, env, health, info, metrics, mappings
+  endpoint:
+    health:
+      show-details: always
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka
+  instance:
+    preferIpAddress: true

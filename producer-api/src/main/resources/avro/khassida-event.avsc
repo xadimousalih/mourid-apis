@@ -1,0 +1,17 @@
+{
+	"namespace": "com.mycompany.commonsbayite.avro",
+	"type": "record",
+	"name": "BayiteEvent",
+	"fields": [
+		{"name": "id", "type": "string"},
+		{"name": "titre", "type": "string"},
+		{"name": "teunk", "type": "string"},
+		{"name": "description", "type": "string"},
+		{"name": "periodeEcriture", "type": ["null", "string"], "default": null},
+		{"name": "auteur", "type": "string"},
+		{"name": "nombreBayite", "type": ["null", "string"], "default": null},
+		{"name": "nombreBaate", "type": ["null", "string"], "default": null},
+		{"name": "nombreAraf", "type": ["null", "string"], "default": null},
+		{"name": "category", "type": ["null", "string"], "default": null}
+	]
+}
